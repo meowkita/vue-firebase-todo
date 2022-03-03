@@ -4,7 +4,7 @@
       <div
         class="col-12 col-sm-8 col-md-6 col-lg-4 offset-0 offset-sm-2 offset-md-3 offset-lg-4"
       >
-        <form action="">
+        <form @submit="loginWithEmailAndPassword">
           <div class="mb-3 text-center">
             <h1>VueFire ToDo</h1>
           </div>
@@ -16,6 +16,7 @@
               type="email"
               name="email"
               id="email"
+              v-model="this.email"
               placeholder="name@example.com"
             />
           </div>
@@ -27,6 +28,7 @@
                 class="form-control"
                 name="password"
                 placeholder="Your secure password"
+                v-model="this.password"
               />
               <div class="input-group-text">
                 <input
@@ -40,13 +42,17 @@
           <div class="d-flex justify-content-center align-items-center">
             <button class="btn btn-primary">Sign In</button>
             <span class="ms-3 text-end"
-              >Not registered yet? <a href="#">Sign Up</a></span
+              >Not registered yet?
+              <router-link to="/sign-up">Sign Up</router-link></span
             >
           </div>
         </form>
         <div class="text-center my-3">
           <h4 class="mb-3">or</h4>
-          <button class="btn btn-lg btn-outline-primary">
+          <button
+            class="btn btn-lg btn-outline-primary"
+            @click="this.loginWithGoogle"
+          >
             <div class="d-flex justify-content-center align-items-center gap-2">
               <span class="align-self-baseline"> Sign In with Google </span>
             </div>
@@ -56,3 +62,40 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "SignInView",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    async loginWithEmailAndPassword(event) {
+      event.preventDefault();
+
+      const formData = {
+        email: this.email,
+        password: this.password,
+      };
+
+      console.log(formData);
+
+      try {
+        await this.$store.dispatch("loginWithEmailAndPassword", formData);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async loginWithGoogle() {
+      try {
+        await this.$store.dispatch("loginWithGoogle");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
+</script>
