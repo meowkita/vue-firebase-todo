@@ -18,6 +18,7 @@
               id="email"
               v-model="this.email"
               placeholder="name@example.com"
+              required
             />
           </div>
           <div class="mb-4">
@@ -29,6 +30,7 @@
                 name="password"
                 placeholder="Your secure password"
                 v-model="this.password"
+                required
               />
               <div class="input-group-text">
                 <input
@@ -80,8 +82,6 @@ export default {
         email: this.email,
         password: this.password,
       };
-
-      console.log(formData);
 
       try {
         await this.$store.dispatch("signInWithEmailAndPassword", formData);

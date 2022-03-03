@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
-import { auth } from "@/firebase";
+import router from "@/router";
+import { app, auth } from "@/firebase";
 
 export default createStore({
   state: {
@@ -11,17 +12,35 @@ export default createStore({
     },
   },
   mutations: {
-    login(state, user) {
+    signUp() {
+      router.push("/sign-in");
+    },
+    signIn(state, user) {
       state.user = user;
+      router.push("/home");
+    },
+    signOut(state) {
+      state.user = null;
+      router.push("/sign-in");
     },
   },
   actions: {
+    async signUpWithEmailAndPassword({ commit }, { email, password }) {
+      console.log(email, password);
+      await auth
+        .createUserWithEmailAndPassword(auth.getAuth(app), email, password)
+        .then(() => {
+          commit("signUp");
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
     async signInWithEmailAndPassword({ commit }, { email, password }) {
       await auth
-        .signInWithEmailAndPassword(auth.getAuth(), email, password)
+        .signInWithEmailAndPassword(auth.getAuth(app), email, password)
         .then((response) => {
-          console.log(response);
-          commit("login", response.user);
+          commit("signIn", response.user);
         })
         .catch((error) => {
           throw error;
@@ -29,10 +48,17 @@ export default createStore({
     },
     async signInWithGoogle({ commit }) {
       await auth
-        .signInWithPopup(auth.getAuth(), new auth.GoogleAuthProvider())
+        .signInWithPopup(auth.getAuth(app), new auth.GoogleAuthProvider())
         .then((response) => {
-          console.log(response);
-          commit("login", response.user);
+          commit("signIn", response.user);
+        });
+    },
+    async signOut({ commit }) {
+      await auth
+        .signOut(auth.getAuth(app))
+        .then(() => commit("signOut"))
+        .catch((error) => {
+          throw error;
         });
     },
   },
