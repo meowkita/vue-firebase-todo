@@ -4,7 +4,7 @@
       <div
         class="col-12 col-sm-8 col-md-6 col-lg-4 offset-0 offset-sm-2 offset-md-3 offset-lg-4"
       >
-        <form action="">
+        <form @submit="this.signUpWithEmailAndPassword">
           <div class="mb-3 text-center">
             <h1>VueFire ToDo</h1>
           </div>
@@ -17,6 +17,8 @@
               name="email"
               id="email"
               placeholder="name@example.com"
+              v-model="this.email"
+              required
             />
           </div>
           <div class="mb-4">
@@ -27,6 +29,8 @@
                 class="form-control"
                 name="password"
                 placeholder="Your secure password"
+                v-model="this.password"
+                required
               />
               <div class="input-group-text">
                 <input
@@ -39,10 +43,43 @@
           </div>
           <div class="d-flex justify-content-center align-items-center">
             <button type="submit" class="btn btn-primary">Sign Up</button>
-            <button class="ms-3 btn btn-outline-danger">Cancel</button>
+            <button
+              class="ms-3 btn btn-outline-danger"
+              @click="this.$router.push('/sign-in')"
+            >
+              Cancel
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "SignUpView",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    async signUpWithEmailAndPassword(event) {
+      event.preventDefault();
+
+      const formData = {
+        email: this.email,
+        password: this.password,
+      };
+
+      try {
+        await this.$store.dispatch("signUpWithEmailAndPassword", formData);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
+</script>

@@ -7,7 +7,12 @@
           <h5>Email</h5>
           <p>name.surname@example.com</p>
         </div>
-        <button class="btn btn-danger btn-sm">Log Out</button>
+        <button
+          class="btn btn-danger btn-sm"
+          @click="this.$store.dispatch('signOut')"
+        >
+          Log Out
+        </button>
       </div>
       <div class="col-12 col-md-8 col-lg-9 mt-2">
         <TodoItemCreator />
