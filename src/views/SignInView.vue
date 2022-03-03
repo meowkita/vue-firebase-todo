@@ -51,7 +51,7 @@
           <h4 class="mb-3">or</h4>
           <button
             class="btn btn-lg btn-outline-primary"
-            @click="this.loginWithGoogle"
+            @click="this.$store.dispatch('signInWithGoogle')"
           >
             <div class="d-flex justify-content-center align-items-center gap-2">
               <span class="align-self-baseline"> Sign In with Google </span>
@@ -84,14 +84,7 @@ export default {
       console.log(formData);
 
       try {
-        await this.$store.dispatch("loginWithEmailAndPassword", formData);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async loginWithGoogle() {
-      try {
-        await this.$store.dispatch("loginWithGoogle");
+        await this.$store.dispatch("signInWithEmailAndPassword", formData);
       } catch (error) {
         console.error(error);
       }

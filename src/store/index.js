@@ -16,7 +16,7 @@ export default createStore({
     },
   },
   actions: {
-    async loginWithEmailAndPassword({ commit }, { email, password }) {
+    async signInWithEmailAndPassword({ commit }, { email, password }) {
       await auth
         .signInWithEmailAndPassword(auth.getAuth(), email, password)
         .then((response) => {
@@ -27,7 +27,7 @@ export default createStore({
           throw error;
         });
     },
-    async loginWithGoogle({ commit }) {
+    async signInWithGoogle({ commit }) {
       await auth
         .signInWithPopup(auth.getAuth(), new auth.GoogleAuthProvider())
         .then((response) => {
