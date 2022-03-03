@@ -11,16 +11,18 @@
       </div>
       <div class="col-12 col-md-8 col-lg-9 mt-2">
         <ul class="list-group">
-          <li class="list-group-item">
-            <h5 class="mt-1">ToDo's header</h5>
-            <p>ToDo's description</p>
-            <div class="text-end mb-2">
-              <button class="btn btn-success">Check</button>
-              <button class="btn btn-outline-danger">Delete</button>
-            </div>
-          </li>
+          <ToDoListItem />
         </ul>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import ToDoListItem from "@/components/TodoListItem.vue";
+
+export default {
+  name: "HomeView",
+  components: { ToDoListItem },
+};
+</script>
