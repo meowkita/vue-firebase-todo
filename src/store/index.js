@@ -29,8 +29,10 @@ export default createStore({
       console.log(email, password);
       await auth
         .createUserWithEmailAndPassword(auth.getAuth(app), email, password)
-        .then(() => {
-          commit("signUp");
+        .then((response) => {
+          auth
+            .sendEmailVerification(response.user)
+            .then(() => commit("signUp"));
         })
         .catch((error) => {
           throw error;
@@ -40,7 +42,11 @@ export default createStore({
       await auth
         .signInWithEmailAndPassword(auth.getAuth(app), email, password)
         .then((response) => {
-          commit("signIn", response.user);
+          if (response.user.emailVerified) {
+            commit("signIn", response.user);
+          } else {
+            throw Error("Email isn't verified");
+          }
         })
         .catch((error) => {
           throw error;
