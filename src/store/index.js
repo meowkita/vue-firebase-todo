@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import auth from "./auth";
+import todos from "./todos";
 
 export default createStore({
   state: {},
@@ -8,5 +9,6 @@ export default createStore({
   actions: {},
   modules: {
     auth,
+    todos,
   },
 });
