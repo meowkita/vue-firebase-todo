@@ -24,7 +24,9 @@ export default {
         )
         .then((response) => {
           response.forEach((element) => {
-            todoArray.push(element.data());
+            const elementData = element.data();
+            elementData.id = element.id;
+            todoArray.push(elementData);
           });
           commit("fetchTodoList", todoArray);
         })
@@ -34,13 +36,25 @@ export default {
       const userUid = rootState.auth.user.uid;
       newTodo.author = userUid;
 
-      console.log(newTodo);
-
       await firestore
         .addDoc(
           firestore.collection(firestore.getFirestore(), "todos"),
           newTodo
         )
+        .then(() => dispatch("fetchTodoList"))
+        .catch((error) => console.error(error));
+    },
+    async checkTodo({ dispatch }, { id, currentCheckState }) {
+      await firestore
+        .updateDoc(firestore.doc(firestore.getFirestore(), "todos", id), {
+          isChecked: !currentCheckState,
+        })
+        .then(() => dispatch("fetchTodoList"))
+        .catch((error) => console.error(error));
+    },
+    async deleteTodo({ dispatch }, id) {
+      await firestore
+        .deleteDoc(firestore.doc(firestore.getFirestore(), "todos", id))
         .then(() => dispatch("fetchTodoList"))
         .catch((error) => console.error(error));
     },

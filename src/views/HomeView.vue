@@ -8,7 +8,11 @@
         <todo-item-creator />
         <hr />
         <ul class="list-group">
-          <todo-list-item />
+          <todo-list-item
+            v-for="todoItem in this.$store.state.todos.todoList"
+            :key="todoItem.header"
+            :item="todoItem"
+          />
         </ul>
       </div>
     </div>
