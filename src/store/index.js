@@ -3,6 +3,7 @@ import auth from "./auth";
 import todos from "./todos";
 
 export default createStore({
+  namespaced: true,
   state: {},
   getters: {},
   mutations: {},
