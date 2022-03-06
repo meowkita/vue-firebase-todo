@@ -25,7 +25,6 @@ export default {
   },
   actions: {
     async signUpWithEmailAndPassword({ commit }, { email, password }) {
-      console.log(email, password);
       await auth
         .createUserWithEmailAndPassword(auth.getAuth(app), email, password)
         .then((response) => {

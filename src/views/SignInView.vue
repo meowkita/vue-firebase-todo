@@ -9,6 +9,13 @@
             <h1>VueFire ToDo</h1>
           </div>
           <hr />
+          <div
+            class="mb-3 border bg-warning border-warning rounded p-2"
+            style="--bs-bg-opacity: 0.2"
+            v-if="!!this.message"
+          >
+            {{ this.message }}
+          </div>
           <div class="mb-3">
             <label class="form-label" for="email">Email</label>
             <input
@@ -72,6 +79,7 @@ export default {
     return {
       email: "",
       password: "",
+      message: "",
     };
   },
   methods: {
@@ -86,7 +94,19 @@ export default {
       try {
         await this.$store.dispatch("signInWithEmailAndPassword", formData);
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
+
+        if (
+          error.message == "Firebase: Error (auth/user-not-found)." ||
+          error.message == "Firebase: Error (auth/wrong-password)."
+        ) {
+          this.message = "Invalid email or password";
+        } else if (error.message == "Email isn't verified") {
+          this.message =
+            "Your email is not verified. Please follow the link that was sent to your email.";
+        } else {
+          this.message = "Internal server error. Please try again later.";
+        }
       }
     },
   },
