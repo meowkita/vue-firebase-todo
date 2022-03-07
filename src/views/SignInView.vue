@@ -73,8 +73,6 @@
 </template>
 
 <script>
-import returnSignInMessage from "@/assets/js/sign-in-error-catching";
-
 export default {
   name: "SignInView",
   data() {
@@ -96,7 +94,7 @@ export default {
       try {
         await this.$store.dispatch("signInWithEmailAndPassword", formData);
       } catch (error) {
-        this.message = returnSignInMessage(error.message);
+        this.message = error.message;
       }
     },
   },
