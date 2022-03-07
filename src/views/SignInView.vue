@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import returnSignInMessage from "@/assets/js/sign-in-error-catching";
+
 export default {
   name: "SignInView",
   data() {
@@ -94,19 +96,7 @@ export default {
       try {
         await this.$store.dispatch("signInWithEmailAndPassword", formData);
       } catch (error) {
-        console.error(error.message);
-
-        if (
-          error.message == "Firebase: Error (auth/user-not-found)." ||
-          error.message == "Firebase: Error (auth/wrong-password)."
-        ) {
-          this.message = "Invalid email or password";
-        } else if (error.message == "Email isn't verified") {
-          this.message =
-            "Your email is not verified. Please follow the link that was sent to your email.";
-        } else {
-          this.message = "Internal server error. Please try again later.";
-        }
+        this.message = returnSignInMessage(error.message);
       }
     },
   },
