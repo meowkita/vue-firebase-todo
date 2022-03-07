@@ -18,12 +18,7 @@
       >
         Check
       </button>
-      <button
-        class="btn btn-outline-danger"
-        @click="this.$store.dispatch('deleteTodo', this.item.id)"
-      >
-        Delete
-      </button>
+      <button class="btn btn-outline-danger" @click="checkTodo">Delete</button>
     </div>
   </li>
 </template>
@@ -38,6 +33,11 @@ export default {
       header: String,
       content: String,
       isChecked: Boolean,
+    },
+  },
+  methods: {
+    checkTodo() {
+      this.$store.dispatch("deleteTodo", this.item.id);
     },
   },
 };
