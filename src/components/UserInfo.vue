@@ -15,20 +15,12 @@
 <script>
 export default {
   computed: {
-    getPhoto() {
-      return this.$store.state.auth.user.photoURL;
-    },
-    getDisplayName() {
-      return this.$store.state.auth.user.displayName;
-    },
-    getEmail() {
-      return this.$store.state.auth.user.email;
-    },
+    getPhoto: () => this.$store.state.auth.user.photoURL,
+    getDisplayName: () => this.$store.state.auth.user.displayName,
+    getEmail: () => this.$store.state.auth.user.email,
   },
   methods: {
-    signOut() {
-      this.$store.dispatch("signOut");
-    },
+    signOut: () => this.$store.dispatch("signOut"),
   },
 };
 </script>
