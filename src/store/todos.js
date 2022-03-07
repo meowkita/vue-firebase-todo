@@ -30,7 +30,9 @@ export default {
           });
           commit("fetchTodoList", todoArray);
         })
-        .catch((error) => console.error(error));
+        .catch(() => {
+          throw Error("Error due fetch ToDos.");
+        });
     },
     async addNewTodo({ rootState, dispatch }, newTodo) {
       const userUid = rootState.auth.user.uid;
@@ -42,7 +44,9 @@ export default {
           newTodo
         )
         .then(() => dispatch("fetchTodoList"))
-        .catch((error) => console.error(error));
+        .catch(() => {
+          throw Error("Error due add new ToDo.");
+        });
     },
     async checkTodo({ dispatch }, { id, currentCheckState }) {
       await firestore
@@ -50,13 +54,17 @@ export default {
           isChecked: !currentCheckState,
         })
         .then(() => dispatch("fetchTodoList"))
-        .catch((error) => console.error(error));
+        .catch(() => {
+          throw Error("Error due check ToDo.");
+        });
     },
     async deleteTodo({ dispatch }, id) {
       await firestore
         .deleteDoc(firestore.doc(firestore.getFirestore(), "todos", id))
         .then(() => dispatch("fetchTodoList"))
-        .catch((error) => console.error(error));
+        .catch(() => {
+          throw Error("Error due delete ToDo.");
+        });
     },
   },
 };
