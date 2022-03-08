@@ -32,8 +32,8 @@ export default {
             .sendEmailVerification(response.user)
             .then(() => commit("signUp"));
         })
-        .catch((error) => {
-          throw error;
+        .catch(() => {
+          throw Error("Email is already registered.");
         });
     },
     async signInWithEmailAndPassword({ commit }, { email, password }) {
@@ -43,11 +43,11 @@ export default {
           if (response.user.emailVerified) {
             commit("signIn", response.user);
           } else {
-            throw Error("Email isn't verified");
+            throw Error("Email isn't verified.");
           }
         })
-        .catch((error) => {
-          throw error;
+        .catch(() => {
+          throw Error("Invalid email or password.");
         });
     },
     async signInWithGoogle({ commit }) {

@@ -1,5 +1,11 @@
 import { firestore } from "@/firebase";
-import { collection, query, where } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 
 export default {
   state: {
@@ -15,13 +21,13 @@ export default {
       const userUid = rootState.auth.user.uid;
       let todoArray = [];
 
+      const queryRef = query(
+        collection(getFirestore(), "todos"),
+        where("author", "==", userUid)
+      );
+
       await firestore
-        .getDocs(
-          query(
-            collection(firestore.getFirestore(), "todos"),
-            where("author", "==", userUid)
-          )
-        )
+        .getDocs(queryRef)
         .then((response) => {
           response.forEach((element) => {
             const elementData = element.data();
@@ -34,23 +40,24 @@ export default {
           throw Error("Error due fetch ToDos.");
         });
     },
+
     async addNewTodo({ rootState, dispatch }, newTodo) {
       const userUid = rootState.auth.user.uid;
       newTodo.author = userUid;
 
+      const collectionRef = collection(getFirestore(), "todos");
       await firestore
-        .addDoc(
-          firestore.collection(firestore.getFirestore(), "todos"),
-          newTodo
-        )
+        .addDoc(collectionRef, newTodo)
         .then(() => dispatch("fetchTodoList"))
         .catch(() => {
           throw Error("Error due add new ToDo.");
         });
     },
+
     async checkTodo({ dispatch }, { id, currentCheckState }) {
+      const documentRef = doc(getFirestore(), "todos", id);
       await firestore
-        .updateDoc(firestore.doc(firestore.getFirestore(), "todos", id), {
+        .updateDoc(documentRef, {
           isChecked: !currentCheckState,
         })
         .then(() => dispatch("fetchTodoList"))
@@ -58,9 +65,11 @@ export default {
           throw Error("Error due check ToDo.");
         });
     },
+
     async deleteTodo({ dispatch }, id) {
+      const documentRef = doc(getFirestore(), "todos", id);
       await firestore
-        .deleteDoc(firestore.doc(firestore.getFirestore(), "todos", id))
+        .deleteDoc(documentRef)
         .then(() => dispatch("fetchTodoList"))
         .catch(() => {
           throw Error("Error due delete ToDo.");

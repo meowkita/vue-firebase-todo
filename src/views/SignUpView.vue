@@ -9,6 +9,13 @@
             <h1>VueFire ToDo</h1>
           </div>
           <hr />
+          <div
+            class="mb-3 border bg-warning border-warning rounded p-2"
+            style="--bs-bg-opacity: 0.2"
+            v-if="!!this.message"
+          >
+            {{ this.message }}
+          </div>
           <div class="mb-3">
             <label class="form-label" for="email">Email</label>
             <input
@@ -63,6 +70,7 @@ export default {
     return {
       email: "",
       password: "",
+      message: "",
     };
   },
   methods: {
@@ -77,7 +85,7 @@ export default {
       try {
         await this.$store.dispatch("signUpWithEmailAndPassword", formData);
       } catch (error) {
-        console.error(error);
+        this.message = error.message;
       }
     },
   },

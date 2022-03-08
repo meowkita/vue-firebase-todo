@@ -9,7 +9,7 @@
         <hr />
         <ul class="list-group">
           <todo-list-item
-            v-for="todoItem in this.$store.state.todos.todoList"
+            v-for="todoItem in this.getTodoList"
             :key="todoItem.header"
             :item="todoItem"
           />
@@ -27,6 +27,11 @@ import TodoItemCreator from "@/components/TodoItemCreator.vue";
 export default {
   name: "HomeView",
   components: { TodoListItem, TodoItemCreator, UserInfo },
+  computed: {
+    getTodoList() {
+      return this.$store.state.todos.todoList;
+    },
+  },
   mounted() {
     this.$store.dispatch("fetchTodoList");
   },
