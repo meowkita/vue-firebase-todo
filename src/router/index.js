@@ -16,12 +16,25 @@ const routes = [
     path: "/home",
     name: "home",
     component: () => import("@/views/HomeView"),
+    meta: { requiresAuth: true },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (this.$store.getters.isAuthenticated) {
+      next();
+      return;
+    }
+    next("/sign-in");
+  } else {
+    next();
+  }
 });
 
 export default router;
