@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SignInView from "@/views/SignInView";
+import store from "@/store";
 
 const routes = [
   {
@@ -27,7 +28,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (this.$store.getters.isAuthenticated) {
+    if (store.getters.isAuthenticated) {
       next();
       return;
     }
