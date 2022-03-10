@@ -46,7 +46,10 @@ export default {
             throw Error("Email isn't verified.");
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          if (error.message === "Email isn't verified.") {
+            throw Error("Email isn't verified.");
+          }
           throw Error("Invalid email or password.");
         });
     },
