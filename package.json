@@ -1,5 +1,6 @@
 {
   "name": "vue-firebase-todo",
+  "homepage": "https://meowkita.github.io/vue-firebase-todo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
