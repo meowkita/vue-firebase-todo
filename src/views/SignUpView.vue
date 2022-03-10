@@ -32,7 +32,7 @@
             <label class="form-label" for="password">Password</label>
             <div class="input-group mb-3">
               <input
-                type="text"
+                :type="this.isPasswordVisible ? 'text' : 'password'"
                 class="form-control"
                 name="password"
                 placeholder="Your secure password"
@@ -44,6 +44,7 @@
                   class="form-check-input mt-0 me-2"
                   type="checkbox"
                   aria-label="Checkbox for following text input"
+                  v-model="this.isPasswordVisible"
                 />Show
               </div>
             </div>
@@ -71,6 +72,7 @@ export default {
       email: "",
       password: "",
       message: "",
+      isPasswordVisible: false,
     };
   },
   methods: {
